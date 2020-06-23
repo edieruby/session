@@ -9,7 +9,7 @@
 ### Download and install
 
 ```bash
-$ go get -v github.com/go-session/session
+github.com/edieruby/session/v3
 ```
 
 ### Create file `server.go`
