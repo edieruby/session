@@ -285,7 +285,7 @@ func (m *Manager) Start(ctx context.Context, w http.ResponseWriter, r *http.Requ
 
 	sid, err := m.sessionID(r)
 	if err != nil {
-		return nil, err
+		sid = ""
 	}
 
 	if sid != "" {
