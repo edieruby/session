@@ -35,6 +35,7 @@ var defaultOptions = options{
 	},
 	enableSetCookie:     true,
 	enableSIDInURLQuery: true,
+	sameSite:            http.SameSiteDefaultMode,
 }
 
 type options struct {
@@ -42,6 +43,7 @@ type options struct {
 	cookieName              string
 	cookieLifeTime          int
 	secure                  bool
+	sameSite                http.SameSite
 	domain                  string
 	expired                 int64
 	sessionID               IDHandlerFunc
@@ -87,6 +89,12 @@ func SetDomain(domain string) Option {
 func SetSecure(secure bool) Option {
 	return func(o *options) {
 		o.secure = secure
+	}
+}
+
+func SetSameSite(sameSite http.SameSite) Option {
+	return func(o *options) {
+		o.sameSite = sameSite
 	}
 }
 
@@ -262,6 +270,8 @@ func (m *Manager) setCookie(sessionID string, w http.ResponseWriter, r *http.Req
 			Secure:   m.isSecure(r),
 			Domain:   m.opts.domain,
 		}
+
+		cookie.SameSite = m.opts.sameSite
 
 		if v := m.opts.cookieLifeTime; v > 0 {
 			cookie.MaxAge = v

@@ -14,6 +14,8 @@ func TestSessionStart(t *testing.T) {
 	cookieName := "test_session_start"
 	manager := NewManager(
 		SetCookieName(cookieName),
+		SetSameSite(http.SameSiteNoneMode),
+		SetSecure(true),
 	)
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
